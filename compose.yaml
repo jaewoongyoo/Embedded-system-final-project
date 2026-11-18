@@ -1,0 +1,28 @@
+services:
+  broker:
+    image: eclipse-mosquitto:2
+    volumes:
+      - ./mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+    ports:
+      - "${MQTT_BIND:-127.0.0.1}:1883:1883"
+  server:
+    build: .
+    depends_on: [broker]
+    environment:
+      MQTT_HOST: broker
+      KMA_SERVICE_KEY: ${KMA_SERVICE_KEY:-}
+      KMA_NX: ${KMA_NX:-}
+      KMA_NY: ${KMA_NY:-}
+    volumes:
+      - readings:/app/data
+    ports:
+      - "127.0.0.1:8000:8000"
+  device:
+    profiles: [demo]
+    build: .
+    depends_on: [broker, server]
+    environment:
+      MQTT_HOST: broker
+    command: ["python", "-u", "-m", "floodguard.device", "--loop"]
+volumes:
+  readings:

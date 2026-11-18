@@ -1,0 +1,9 @@
+__pycache__/
+.venv/
+.env
+api.env
+.floodguard-test/
+data/
+.pio/
+firmware/floodguard/config.h
+.env

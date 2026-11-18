@@ -1,0 +1,10 @@
+*
+!requirements.txt
+!floodguard/
+!floodguard/*.py
+!dashboard/
+!dashboard/*.html
+!dashboard/*.js
+!dashboard/*.css
+!simulator/
+!simulator/style.css

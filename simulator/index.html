@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FLOOD GUARD · 침수 시뮬레이터</title>
+  <link rel="stylesheet" href="style.css">
+  <script defer src="simulation.js"></script>
+</head>
+<body>
+  <header>
+    <div><strong>FLOOD GUARD</strong><span>침수 조기 경보 시뮬레이터</span></div>
+    <span class="badge">가상 데이터</span>
+  </header>
+  <main>
+    <div class="intro">
+      <div><h1>매장 침수 모니터링</h1><p>매장 01 · 실내 바닥 및 2cm 간격 수위 센서</p></div>
+      <div class="clock"><span>시뮬레이션 시각</span><strong id="clock"></strong></div>
+    </div>
+    <div class="layout">
+      <div class="stack">
+        <section class="alert" id="alert" aria-live="polite">
+          <div><span>서버 경보</span><h2 id="stage"></h2><p id="reason"></p></div>
+          <div class="connection"><strong id="link"></strong><span id="last"></span></div>
+        </section>
+        <div class="metrics">
+          <section><h2>최종 감지 수위</h2><strong id="level"></strong></section>
+          <section><h2>최근 상승 속도</h2><strong id="rate"></strong></section>
+          <section><h2>위험 수위까지</h2><strong id="eta"></strong></section>
+          <section><h2>최근 1시간 강수량</h2><strong id="rain"></strong></section>
+        </div>
+        <div class="details">
+          <section>
+            <h2>현장 센서</h2>
+            <p>가상 ESP32 · 현장 표시등과 부저</p>
+            <ul id="sensors" class="sensors"></ul>
+            <p id="buzzer" class="buzzer" aria-live="polite"></p>
+          </section>
+          <section>
+            <h2>이벤트 기록</h2>
+            <ol id="history" class="history" aria-label="최근 이벤트"></ol>
+          </section>
+        </div>
+      </div>
+      <aside class="stack">
+        <section>
+          <h2>발표 시나리오</h2>
+          <p id="scenario">다음 단계 버튼으로 시연을 시작하세요.</p>
+          <button type="button" id="next" class="primary">다음 단계</button>
+          <button type="button" id="reset">초기화</button>
+        </section>
+        <section>
+          <h2>수동 조작</h2>
+          <form id="controls">
+            <label>센서 입력
+              <select name="level">
+                <option value="-1">건조</option>
+                <option value="0">0cm · 바닥 감지</option>
+                <option value="2">2cm</option>
+                <option value="4">4cm</option>
+                <option value="6">6cm</option>
+                <option value="8">8cm</option>
+              </select>
+            </label>
+            <label>경과 시간 (초)<input name="elapsed" type="number" min="1" max="3600" value="200" required></label>
+            <label>가상 강수량 (mm / 1시간)<input name="rain" type="number" min="0" max="300" step="0.1" value="0" required></label>
+            <button class="primary">입력 적용</button>
+          </form>
+          <button type="button" id="toggle">센서 통신 끊기</button>
+          <p class="note">위험 수위 8cm · 경고 15분 이내 · 긴급 5분 이내. ETA는 최근 상승 속도가 유지된다는 가정으로 계산합니다.</p>
+        </section>
+      </aside>
+    </div>
+  </main>
+</body>
+</html>
